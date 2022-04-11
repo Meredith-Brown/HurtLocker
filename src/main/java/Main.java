@@ -20,7 +20,6 @@ public class Main {
         String input = (new Main()).readRawDataToString();
         List<String> objectCreation = getObjectStrings(input);
         main.createGroceryItems(objectCreation);
-        System.out.println(main.groceryList.get(0).name);
     }
 
     public static List<String> getObjectStrings (String rawData) {
@@ -36,29 +35,30 @@ public class Main {
     public void createGroceryItems(List<String> objectCreation) {
         for (String s : objectCreation) {
             List<String> objectData = new ArrayList<>();
-            Pattern patternName = Pattern.compile("name.*?;", Pattern.CASE_INSENSITIVE);
+            Pattern patternName = Pattern.compile("name.*?[;|%|*|!|@]", Pattern.CASE_INSENSITIVE);
             Matcher matcherName = patternName.matcher(s);
             while (matcherName.find()) {
                 objectData.add(matcherName.group(0));
             }
-            Pattern patternPrice = Pattern.compile("price.*?;", Pattern.CASE_INSENSITIVE);
+            Pattern patternPrice = Pattern.compile("price.*?[;|%|*|!|@]", Pattern.CASE_INSENSITIVE);
             Matcher matcherPrice = patternPrice.matcher(s);
             while (matcherPrice.find()) {
                 objectData.add(matcherPrice.group(0));
             }
-            Pattern patternType = Pattern.compile("type.*?;", Pattern.CASE_INSENSITIVE);
+            Pattern patternType = Pattern.compile("type.*?[;|%|*|!|@]", Pattern.CASE_INSENSITIVE);
             Matcher matcherType = patternType.matcher(s);
             while (matcherType.find()) {
                 objectData.add(matcherType.group(0));
             }
-            Pattern patternEDate = Pattern.compile("expiration.*?;", Pattern.CASE_INSENSITIVE);
+            Pattern patternEDate = Pattern.compile("expiration.*?##", Pattern.CASE_INSENSITIVE);
             Matcher matcherEDate = patternEDate.matcher(s);
             while (matcherEDate.find()) {
-                objectData.add(matcherEDate.group(0)); // TODO - add to constructor
+                objectData.add(matcherEDate.group(0));
             }
-            GroceryItem groceryItem = new GroceryItem(objectData.get(0), Float.parseFloat(objectData.get(1)),
-                    objectData.get(2));
-            groceryList.add(groceryItem);
+            //GroceryItem groceryItem = new GroceryItem(objectData.get(0), objectData.get(1),
+                    //objectData.get(2), objectData.get(3));
+            //groceryList.add(groceryItem);
+            System.out.println(objectData);
         }
     }
 
