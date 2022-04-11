@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class Main {
     public List<GroceryItem> groceryList = new ArrayList<>();
+    public int errorsCount = 0;
 
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
@@ -33,8 +34,8 @@ public class Main {
     }
 
     public void createGroceryItems(List<String> objectCreation) {
-        List<String> objectData = new ArrayList<>();
         for (String s : objectCreation) {
+            List<String> objectData = new ArrayList<>();
             Pattern patternName = Pattern.compile("name.*?[;|%|*|!|@|^]", Pattern.CASE_INSENSITIVE);
             Matcher matcherName = patternName.matcher(s);
             List<String> intermediateN = new ArrayList<>();
@@ -71,26 +72,36 @@ public class Main {
             }
             Pattern patternType = Pattern.compile("type.*?[;|%|*|!|@|^]", Pattern.CASE_INSENSITIVE);
             Matcher matcherType = patternType.matcher(s);
+            List<String> intermediateT = new ArrayList<>();
             while (matcherType.find()) {
-                objectData.add(matcherType.group(0));
+                intermediateT.add(matcherType.group(0));
+            }
+            for (String s5 : intermediateT) {
+                Pattern patternType2 = Pattern.compile(":.*?[;|%|*|!|@|^]");
+                Matcher matcherType2 = patternType2.matcher(s5);
+                List<String> intermediateT2 = new ArrayList<>();
+                while (matcherType2.find()) {
+                    intermediateT2.add(matcherType2.group(0));
+                }
+                for (String s6 : intermediateT2) {
+                    Pattern patternType3 = Pattern.compile("[a-zA-Z0-9]+");
+                    Matcher matcherType3 = patternType3.matcher(s6);
+                    while (matcherType3.find()) {
+                        objectData.add(matcherType3.group(0));
+                    }
+                }
             }
             Pattern patternEDate = Pattern.compile("[0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]");
             Matcher matcherEDate = patternEDate.matcher(s);
             while (matcherEDate.find()) {
                 objectData.add(matcherEDate.group(0));
             }
-            //if (objectData.get()) // NOT NULL
-            //GroceryItem groceryItem = new GroceryItem(objectData.get(0), objectData.get(1),
-                    //objectData.get(2), objectData.get(3));
-            //groceryList.add(groceryItem); // IF NOT NULL
-        }
-        for (int i = 0; i < objectData.size(); i++) {
-            if (objectData.get(i) == null) {
-                objectData.remove(i);
-                System.out.println("REMOVE");
-                i--;
+            if (objectData.size() == 4) {
+                GroceryItem groceryItem = new GroceryItem(objectData.get(0), objectData.get(1),
+                        objectData.get(2), objectData.get(3));
+                groceryList.add(groceryItem);
             } else {
-                System.out.println(objectData.get(i));
+                errorsCount++;
             }
         }
     }
