@@ -2,9 +2,9 @@ import java.time.LocalDate;
 
 public class GroceryItem {
     String name;
-    String price; // TODO - change to float?
+    String price;
     String type;
-    String expiration; // TODO - change to LocalDate?
+    String expiration;
 
     public GroceryItem(String name, String price, String type, String expiration) {
         this.name = name;

@@ -42,8 +42,16 @@ public class Main {
             }
             Pattern patternPrice = Pattern.compile("price.*?[;|%|*|!|@]", Pattern.CASE_INSENSITIVE);
             Matcher matcherPrice = patternPrice.matcher(s);
+            List<String> intermediate = new ArrayList<>();
             while (matcherPrice.find()) {
-                objectData.add(matcherPrice.group(0));
+                intermediate.add(matcherPrice.group(0));
+            }
+            for (String s2 : intermediate) {
+                Pattern patternPrice2 = Pattern.compile("[0-9]*\\.?[0-9][0-9]");
+                Matcher matcherPrice2 = patternPrice2.matcher(s2);
+                while (matcherPrice2.find()) {
+                    objectData.add(matcherPrice2.group(0));
+                }
             }
             Pattern patternType = Pattern.compile("type.*?[;|%|*|!|@]", Pattern.CASE_INSENSITIVE);
             Matcher matcherType = patternType.matcher(s);
@@ -51,7 +59,6 @@ public class Main {
                 objectData.add(matcherType.group(0));
             }
             Pattern patternEDate = Pattern.compile("[0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]");
-//            Pattern patternEDate = Pattern.compile("expiration.*?##", Pattern.CASE_INSENSITIVE);
             Matcher matcherEDate = patternEDate.matcher(s);
             while (matcherEDate.find()) {
                 objectData.add(matcherEDate.group(0));
