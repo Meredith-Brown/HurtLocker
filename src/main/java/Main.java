@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main {
+public class Main { // TODO - write tests!!!
     public List<GroceryItem> groceryList = new ArrayList<>();
     public int errorsCount = 0;
 
@@ -21,6 +21,8 @@ public class Main {
         String input = (new Main()).readRawDataToString();
         List<String> objectCreation = getObjectStrings(input);
         main.createGroceryItems(objectCreation);
+        String listToPrint = main.printGroceryList(main.groceryList);
+        System.out.println(listToPrint);
     }
 
     public static List<String> getObjectStrings (String rawData) {
@@ -104,6 +106,38 @@ public class Main {
                 errorsCount++;
             }
         }
+    }
+
+    public String printGroceryList(List<GroceryItem> groceryList) {
+        int milkCount = 0;
+        int breadCount = 0;
+        int cookiesCount = 0; // TODO - account for 0 in Cookie
+        int applesCount = 0;
+        for (GroceryItem g : groceryList) {
+            Pattern patternMilk = Pattern.compile("milk", Pattern.CASE_INSENSITIVE);
+            Matcher matcherMilk = patternMilk.matcher(g.name);
+            while (matcherMilk.find()) {
+                milkCount++;
+            }
+            Pattern patternBread = Pattern.compile("bread", Pattern.CASE_INSENSITIVE);
+            Matcher matcherBread = patternBread.matcher(g.name);
+            while (matcherBread.find()) {
+                breadCount++;
+            }
+            Pattern patternCookie = Pattern.compile("cookie", Pattern.CASE_INSENSITIVE);
+            Matcher matcherCookie = patternCookie.matcher(g.name);
+            while (matcherCookie.find()) {
+                cookiesCount++;
+            }
+            Pattern patternApples = Pattern.compile("apples", Pattern.CASE_INSENSITIVE);
+            Matcher matcherApples = patternApples.matcher(g.name);
+            while (matcherApples.find()) {
+                applesCount++;
+            }
+        }
+        String output = ("Milk         Qty. " + milkCount + "Bread         Qty. " + breadCount +
+                "Cookies         Qty. " + cookiesCount + "Apples         Qty. " + applesCount);
+        return output;
     }
 
 }
