@@ -50,14 +50,15 @@ public class Main {
             while (matcherType.find()) {
                 objectData.add(matcherType.group(0));
             }
-            Pattern patternEDate = Pattern.compile("expiration.*?##", Pattern.CASE_INSENSITIVE);
+            Pattern patternEDate = Pattern.compile("[0-9]/[0-9][0-9]/[0-9][0-9][0-9][0-9]");
+//            Pattern patternEDate = Pattern.compile("expiration.*?##", Pattern.CASE_INSENSITIVE);
             Matcher matcherEDate = patternEDate.matcher(s);
             while (matcherEDate.find()) {
                 objectData.add(matcherEDate.group(0));
             }
             //GroceryItem groceryItem = new GroceryItem(objectData.get(0), objectData.get(1),
                     //objectData.get(2), objectData.get(3));
-            //groceryList.add(groceryItem);
+            //groceryList.add(groceryItem); // IF NOT NULL
             System.out.println(objectData);
         }
     }
