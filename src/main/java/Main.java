@@ -19,16 +19,22 @@ public class Main {
         // create object
         String input = (new Main()).readRawDataToString();
         List<String> objectCreation = new ArrayList<>();
-        Pattern patternName = Pattern.compile("name", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = patternName.matcher(input);
-        while (matcher.find()) {
-            objectCreation.add("x");
+
+        Pattern patternName = Pattern.compile("name.*?;", Pattern.CASE_INSENSITIVE);
+        Matcher matcherName = patternName.matcher(input); // TODO - change from input
+        while (matcherName.find()) {
+            objectCreation.add(matcherName.group(0));
         }
-        System.out.println(objectCreation.get(0));
-        System.out.println(objectCreation.get(1));
-            // matcher has anchoring bounds
+    }
 
-
+    public List<String> getObjectStrings (String rawData) {
+        List<String> objectStrings = new ArrayList<>();
+        Pattern patternObject = Pattern.compile("name.*?##", Pattern.CASE_INSENSITIVE);
+        Matcher matcherObject = patternObject.matcher(rawData);
+        while (matcherObject.find()) {
+            objectStrings.add(matcherObject.group(0));
+        }
+        return objectStrings;
     }
 
 }
