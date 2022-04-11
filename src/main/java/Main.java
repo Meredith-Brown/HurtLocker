@@ -1,11 +1,13 @@
 import org.apache.commons.io.IOUtils;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
+    public List<GroceryItem> groceryList = new ArrayList<>();
 
     public String readRawDataToString() throws Exception{
         ClassLoader classLoader = getClass().getClassLoader();
@@ -14,20 +16,14 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception{
-        // pattern matcher ignore casing
-        // matcher.find --- use regex to indicate anything goes and then a ;
-        // create object
+        Main main = new Main();
         String input = (new Main()).readRawDataToString();
-        List<String> objectCreation = new ArrayList<>();
-
-        Pattern patternName = Pattern.compile("name.*?;", Pattern.CASE_INSENSITIVE);
-        Matcher matcherName = patternName.matcher(input); // TODO - change from input
-        while (matcherName.find()) {
-            objectCreation.add(matcherName.group(0));
-        }
+        List<String> objectCreation = getObjectStrings(input);
+        main.createGroceryItems(objectCreation);
+        System.out.println(main.groceryList.get(0).name);
     }
 
-    public List<String> getObjectStrings (String rawData) {
+    public static List<String> getObjectStrings (String rawData) {
         List<String> objectStrings = new ArrayList<>();
         Pattern patternObject = Pattern.compile("name.*?##", Pattern.CASE_INSENSITIVE);
         Matcher matcherObject = patternObject.matcher(rawData);
@@ -37,32 +33,33 @@ public class Main {
         return objectStrings;
     }
 
-}
+    public void createGroceryItems(List<String> objectCreation) {
+        for (String s : objectCreation) {
+            List<String> objectData = new ArrayList<>();
+            Pattern patternName = Pattern.compile("name.*?;", Pattern.CASE_INSENSITIVE);
+            Matcher matcherName = patternName.matcher(s);
+            while (matcherName.find()) {
+                objectData.add(matcherName.group(0));
+            }
+            Pattern patternPrice = Pattern.compile("price.*?;", Pattern.CASE_INSENSITIVE);
+            Matcher matcherPrice = patternPrice.matcher(s);
+            while (matcherPrice.find()) {
+                objectData.add(matcherPrice.group(0));
+            }
+            Pattern patternType = Pattern.compile("type.*?;", Pattern.CASE_INSENSITIVE);
+            Matcher matcherType = patternType.matcher(s);
+            while (matcherType.find()) {
+                objectData.add(matcherType.group(0));
+            }
+            Pattern patternEDate = Pattern.compile("expiration.*?;", Pattern.CASE_INSENSITIVE);
+            Matcher matcherEDate = patternEDate.matcher(s);
+            while (matcherEDate.find()) {
+                objectData.add(matcherEDate.group(0)); // TODO - add to constructor
+            }
+            GroceryItem groceryItem = new GroceryItem(objectData.get(0), Float.parseFloat(objectData.get(1)),
+                    objectData.get(2));
+            groceryList.add(groceryItem);
+        }
+    }
 
-//     public String changeHoratioToTariq(String hamletText) {
-//        if (findHoratio(hamletText) > 0) {
-//            Pattern pattern = Pattern.compile("Horatio");
-//            Matcher matcher = pattern.matcher(hamletText);
-//            String updatedHamletText0 = matcher.replaceAll("Tariq");
-//            Pattern pattern2 = Pattern.compile("HORATIO");
-//            Matcher matcher2 = pattern2.matcher(updatedHamletText0);
-//            String updatedHamletText = matcher2.replaceAll("TARIQ");
-//            return updatedHamletText;
-//        }
-//        return null;
-//    }
-//
-//    public int findHamlet(String hamletText) { // returns count
-//        int count = 0;
-//        Pattern pattern = Pattern.compile("Hamlet");
-//        Matcher matcher = pattern.matcher(hamletText);
-//        while (matcher.find()) {
-//            count++;
-//        }
-//        Pattern pattern2 = Pattern.compile("HAMLET");
-//        Matcher matcher2 = pattern2.matcher(hamletText);
-//        while (matcher2.find()) {
-//            count++;
-//        }
-//        return count;
-//    }
+}
