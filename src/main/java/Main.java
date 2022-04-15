@@ -58,28 +58,24 @@ public class Main { // TODO - write tests!!!
                                 int current = priceFrequency.get(groceryListCopy.get(i).price);
                                 priceFrequency.replace(groceryListCopy.get(i).price, current + 1);
                             } else {
-                                priceFrequency.put(g.price, 1);
+                                priceFrequency.put(groceryListCopy.get(i).price, 1);
                             }
                             groceryListCopy.get(i).name = "VOID";
                             i--;
                         }
                     }
-                    System.out.printf("Item:" + "%10s %n", patternString + "%10s %n", itemCount);
+                    System.out.printf("%-8s %8s %8s %-8s %8s %n", "Item:", patternString, " ", "Qty:",
+                            itemCount);
+                    System.out.println("=================          =================");
+                    String[] keys = priceFrequency.keySet().toArray(new String[0]);
+                    for (String price : keys) {
+                        System.out.printf("%-8s %8s %8s %-8s %8s %n", "Price:", price, " ", "Qty:",
+                                priceFrequency.get(price));
+                        System.out.println("-----------------          -----------------");
+                    }
+                    System.out.println(" ");
                 }
-                String[] keys = priceFrequency.keySet().toArray(new String[0]);
-                for (String price : keys) {
-                    System.out.println(price + ", " + priceFrequency.get(price));
-                }
-
-                // print
-                // remove item from groceryList -- mark index?
-                //             System.out.println("Bread           Qty. " + breadCount);
-                //            System.out.println("================             ================");
-                //            String[] breadKeys = breadMap.keySet().toArray(new String[0]);
-                //            for (String str : breadKeys) {
-                //                System.out.println(str + "        Qty. " + breadMap.get(str));
-                //                System.out.println("---------------");
-                //            }
             }
+            System.out.printf("%-8s %8s %8s %-8s %8s %n", "Errors", " ", " ", "Qty:", errorsCount);
         }
 }
