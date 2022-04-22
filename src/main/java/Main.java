@@ -9,28 +9,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main { // TODO - write tests!!!
-    public List<GroceryItem> groceryList = new ArrayList<>();
-    public int errorsCount = 0;
+    public static List<GroceryItem> groceryList = new ArrayList<>();
+    public static int errorsCount = 0;
 
-    public String readRawDataToString() throws Exception{
-        ClassLoader classLoader = getClass().getClassLoader();
+    public static String readRawDataToString() throws Exception{
+        ClassLoader classLoader = Main.class.getClassLoader();
         String result = IOUtils.toString(classLoader.getResourceAsStream("RawData.txt"));
         return result;
     }
 
     public static void main(String[] args) throws Exception{
-        Main main = new Main();
         Parser parser = new Parser();
-        String input = main.readRawDataToString();
+        String input = readRawDataToString();
         List<String> allObjects = parser.refineToList(input, "name.*?##");
         for (String objectString : allObjects) {
             List<String> objectData = parser.compileObjectData(objectString);
-            main.createGroceryItem(objectData);
+            createGroceryItem(objectData);
         }
-        main.printGroceryList();
+        printGroceryList();
     }
 
-    public void createGroceryItem (List<String> objectData) {
+    public static void createGroceryItem (List<String> objectData) {
         objectData.remove(null);
         try {
             GroceryItem groceryItem = new GroceryItem(objectData.get(0), objectData.get(1),
@@ -42,7 +41,7 @@ public class Main { // TODO - write tests!!!
         }
     }
 
-        public void printGroceryList () {
+        public static void printGroceryList () {
             List<GroceryItem> groceryListCopy = groceryList;
             for (GroceryItem g : groceryListCopy) {
                 Map<String, Integer> priceFrequency = new HashMap<>();
