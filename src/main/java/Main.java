@@ -42,7 +42,7 @@ public class Main { // TODO - write tests!!!
         }
     }
 
-        public void printGroceryList () { // TODO - account for 0 in Cookie
+        public void printGroceryList () {
             List<GroceryItem> groceryListCopy = groceryList;
             for (GroceryItem g : groceryListCopy) {
                 Map<String, Integer> priceFrequency = new HashMap<>();
