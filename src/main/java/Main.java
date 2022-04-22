@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Main { // TODO - write tests!!!
+public class Main {
     public static List<GroceryItem> groceryList = new ArrayList<>();
     public static int errorsCount = 0;
 
